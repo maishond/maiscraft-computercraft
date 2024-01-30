@@ -177,6 +177,11 @@ while true do
 
             -- Loop through table of items
             for i = 1, 54 do
+                if foundCount >= count then
+                    print('Stopping another go (in slots)')
+                    i = 54
+                    break
+                end
                 -- Get item
                 local item = items[i]
                 if item ~= nil then
