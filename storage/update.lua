@@ -1,8 +1,9 @@
-local baseUrl = 'https://jip-cc.loca.lt'
+local baseUrl = 'https://jip-cc.loca.lt/storage'
 local urls = {
-    ['update'] = baseUrl .. '/update',
-    ['get'] = baseUrl .. '/get',
-    ['deposit'] = baseUrl .. '/deposit'
+    ['update'] = baseUrl .. '/update.lua',
+    ['get'] = baseUrl .. '/get.lua',
+    ['deposit'] = baseUrl .. '/deposit.lua',
+    ['chest'] = baseUrl .. '/chest.lua'
 }
 
 -- Loop over urls
@@ -16,6 +17,11 @@ for key, url in pairs(urls) do
 
     -- Read response
     local responseText = response.readAll()
+
+    -- Run update at end (if this isn't the update file)
+    if key ~= 'update' then
+        responseText = responseText .. 'shell.run(\'update\')\n\n'
+    end
 
     -- Write to file
     local file = fs.open(key .. '.lua', 'w')
