@@ -155,6 +155,11 @@ while true do
 
         local foundCount = 0
 
+        if foundCount >= count then
+            print('Stopping another go')
+            break
+        end
+
         -- Loop through chests
         for i = 1, #chests do
             -- Get chest
