@@ -3,7 +3,8 @@ local urls = {
     ['update'] = baseUrl .. '/update.lua',
     ['get'] = baseUrl .. '/get.lua',
     ['deposit'] = baseUrl .. '/deposit.lua',
-    ['chest'] = baseUrl .. '/chest.lua'
+    ['chest'] = baseUrl .. '/chest.lua',
+    ['utils'] = baseUrl .. '/utils.lua'
 }
 
 -- Loop over urls
@@ -19,7 +20,7 @@ for key, url in pairs(urls) do
     local responseText = response.readAll()
 
     -- Run update at end (if this isn't the update file)
-    if key ~= 'update' then
+    if key ~= 'update' and key ~= 'utils' then
         responseText = responseText .. 'shell.run(\'update\')\n\n'
     end
 
