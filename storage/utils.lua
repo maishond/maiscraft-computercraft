@@ -7,6 +7,16 @@ function getTurtleName()
     return turtleName
 end
 
+function toLeft(str)
+    -- Convert str to string
+    str = str .. ''
+    -- If str is less than 8 characters, add spaces to the end
+    if #str < 8 then
+        str = str .. string.rep(' ', 8 - #str)
+    end
+    return string.sub(str, 1, 8) .. '|'
+end
+
 -- Function to split string
 function split(pString, pPattern)
     local Table = {} -- NOTE: use {n = 0} in Lua-5.0
@@ -50,13 +60,12 @@ function getChests()
     local chests = {}
     for i = 1, #allPeripherals do
         local peripheralName = allPeripherals[i]
-        if peripheral.getType(peripheralName) == 'minecraft:chest' or peripheral.getType(peripheralName) ==
-            'minecraft:barrel' then
+        if peripheral.getType(peripheralName) == 'minecraft:chest' then
             table.insert(chests, peripheral.wrap(peripheralName))
         end
     end
 
-    print('Found ' .. #chests .. ' chests')
+    print(toLeft('System'), 'Found ' .. #chests .. ' chests')
     return chests
 end
 

@@ -1,3 +1,4 @@
+-- wget run https://jip-cc.loca.lt/storage/update.lua
 local baseUrl = 'https://jip-cc.loca.lt/storage'
 local urls = {
     ['update'] = baseUrl .. '/update.lua',
@@ -19,9 +20,9 @@ for key, url in pairs(urls) do
     -- Read response
     local responseText = response.readAll()
 
-    -- Run update at end (if this isn't the update file)
-    if key ~= 'update' and key ~= 'utils' then
-        responseText = responseText .. 'shell.run(\'update\')\n\n'
+    if responseText == nil then
+        print('Failed to read response from ' .. url)
+        return
     end
 
     -- Write to file

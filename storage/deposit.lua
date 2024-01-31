@@ -24,6 +24,13 @@ function shuffle(tbl)
     return tbl
 end
 
+-- Go through all chests in a random order
+local chestOrder = {}
+for i = 1, #chests do
+    table.insert(chestOrder, i)
+end
+chestOrder = shuffle(chestOrder)
+
 -- ! Deposit all barrels in the network into chests
 
 -- Go over each barrel
@@ -45,31 +52,15 @@ for i = 1, #barrels do
         -- Get item
         local item = items[i]
 
-        -- print('Running barrel slot', i, 'of', slotCount, 'in barrel', barrel.name, 'of', #barrels, 'barrels'
-
         if item ~= nil then
-            print('Barrel item: ', item.name, i)
+            print(toLeft('B move'), toItemName(item.name), ' slot', i)
 
             barrel.pushItems(turtleName, i)
 
-            -- Go through all chests in a random order
-            local chestOrder = {}
-            for i = 1, #chests do
-                table.insert(chestOrder, i)
-            end
-            chestOrder = shuffle(chestOrder)
-
             -- Loop through chests
-            print(#chests, 'chests', chestOrder)
             for c = 1, #chests do
                 -- Get chest
                 local chest = chests[chestOrder[c]]
-                if chest == nil then
-                    break
-                end
-
-                print('Slot' .. i .. ' chest' .. c .. ' of ' .. #chests)
-
                 chest.pullItems(turtleName, 1)
 
                 -- Check if item is gone from turtle
@@ -80,4 +71,27 @@ for i = 1, #barrels do
             end
         end
     end
+end
+
+-- Also deposit items from turtle
+for i = 1, 16 do
+    -- See if there is an item
+    local item = turtle.getItemDetail(i)
+    if item ~= nil then
+        print(toLeft('T move'), toItemName(item.name), ' slot', i)
+
+        for c = 1, #chests do
+            -- Get chest
+            local chest = chests[chestOrder[c]]
+            turtle.select(i)
+            chest.pullItems(turtleName, i)
+
+            -- Check if item is gone from turtle
+            local item = turtle.getItemDetail()
+            if item == nil then
+                break
+            end
+        end
+    end
+
 end

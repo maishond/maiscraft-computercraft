@@ -12,26 +12,6 @@ loadstring(utils)()
 local turtleName = getTurtleName()
 local chests = getChests()
 
--- Helpful functions
-function finish(found, itemToFind)
-    local itemsPlural = itemToFind
-
-    -- If found is greater than one and doesn't end in s, add s
-    if found > 1 and string.sub(itemsPlural, -1) ~= 's' then
-        -- Check if final is X. If so, add es
-        if string.sub(itemsPlural, -1) == 'x' then
-            itemsPlural = itemsPlural .. 'es'
-        else
-            itemsPlural = itemsPlural .. 's'
-        end
-    end
-
-    print('Found ' .. found .. ' ' .. itemsPlural .. ' in network')
-end
-
--- Print message
-print('Received message: ' .. args)
-
 -- ! Find items in chest
 -- Create variable called "query" that removes all numbers
 local query = string.gsub(args, '%d+', '')
@@ -44,16 +24,29 @@ if count == '' then
 end
 count = tonumber(count)
 
--- Check it doesn't exceed the turtle's inventory
-if count > 16 * 64 then
-    count = 16 * 64
-    print('Too many. Setting to 16 stacks')
-end
+print(toLeft('Looking'), itemToFind .. ' x ' .. count)
 
--- Prints
-print('Query: ' .. query)
-print('Item to find: ' .. itemToFind)
-print('Count: ' .. count)
+-- Helpful functions
+function finish(foundCount, itemToFind)
+    local itemsPlural = itemToFind
+
+    -- If found is greater than one and doesn't end in s, add s
+    if foundCount > 1 and string.sub(itemsPlural, -1) ~= 's' then
+        -- Check if final is X. If so, add es
+        if string.sub(itemsPlural, -1) == 'x' then
+            itemsPlural = itemsPlural .. 'es'
+        else
+            itemsPlural = itemsPlural .. 's'
+        end
+    end
+
+    if foundCount < count then
+        print('Only found ' .. foundCount .. ' ' .. itemsPlural .. ' in network')
+    else
+        print('Got ' .. foundCount .. ' ' .. itemsPlural .. ' from network')
+    end
+
+end
 
 local foundCount = 0
 
@@ -102,15 +95,12 @@ else
                     turtle.dropDown()
                     foundCount = foundCount + takeCount
 
+                    print(toLeft(itemToFind), 'Found ' .. foundCount .. ' of ' .. count)
+
                 end
-
             end
-
         end
-
-        finish(foundCount, itemToFind)
-
-        print('End')
     end
 
+    finish(foundCount, itemToFind)
 end
