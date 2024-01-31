@@ -4,7 +4,6 @@ local urls = {
     ['update'] = baseUrl .. '/update.lua',
     ['get'] = baseUrl .. '/get.lua',
     ['deposit'] = baseUrl .. '/deposit.lua',
-    ['chest'] = baseUrl .. '/chest.lua',
     ['utils'] = baseUrl .. '/utils.lua'
 }
 
