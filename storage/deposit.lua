@@ -17,6 +17,8 @@ for i = 1, #allPeripherals do
     end
 end
 
+print(toLeft('Found'), #barrels .. ' barrels')
+
 function shuffle(tbl)
     for i = #tbl, 2, -1 do
         local j = math.random(i)

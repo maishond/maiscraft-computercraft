@@ -1,3 +1,8 @@
+if turtle == nil then
+    print('Not the appropriate terminal.')
+    return
+end
+
 local args = {...}
 
 -- Args to 1 string
@@ -10,7 +15,7 @@ utilsFile.close()
 loadstring(utils)()
 
 local turtleName = getTurtleName()
-local chests = getChests()
+local chests = getChests(true)
 
 -- ! Find items in chest
 -- Create variable called "query" that removes all numbers

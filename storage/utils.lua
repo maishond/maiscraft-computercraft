@@ -53,14 +53,15 @@ function toItemName(str)
     return itemName
 end
 
-function getChests()
+function getChests(includeTrappedChests)
 
     -- ! Find all chests and barrels
     local allPeripherals = peripheral.getNames()
     local chests = {}
     for i = 1, #allPeripherals do
         local peripheralName = allPeripherals[i]
-        if peripheral.getType(peripheralName) == 'minecraft:chest' then
+        if peripheral.getType(peripheralName) == 'minecraft:chest' or
+            (includeTrappedChests and peripheral.getType(peripheralName) == 'minecraft:trapped_chest') then
             table.insert(chests, peripheral.wrap(peripheralName))
         end
     end

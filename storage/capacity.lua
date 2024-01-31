@@ -4,7 +4,7 @@ local utils = utilsFile.readAll()
 utilsFile.close()
 loadstring(utils)()
 
-local chests = getChests()
+local chests = getChests(true)
 
 print(toLeft('Searching'), "Finding capacity")
 
@@ -35,7 +35,7 @@ for i = 1, #chests do
     local slotCount = chest.size()
 
     -- Loop through table of items
-    for i = 1, #slotCount do
+    for i = 1, slotCount do
         -- Get item
         slotsTotal = slotsTotal + 1
 
@@ -110,6 +110,6 @@ if monitor ~= nil then
     monitor.write(toLeft('') .. string.rep('-', (w - 1) - #toLeft('')))
 
     monitor.setCursorPos(1, 8)
-    monitor.write(toLeft('System') .. ' ' .. #chests * 2 .. ' chests in system')
+    monitor.write(toLeft('System') .. ' ' .. (slotsTotal / (9 * 6)) .. ' double chests in system')
 
 end
