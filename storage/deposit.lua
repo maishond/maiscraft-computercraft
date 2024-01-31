@@ -1,16 +1,17 @@
--- Network stuff
-local modem = peripheral.find("modem")
-modem.open(1)
-local turtleName = modem.getNameLocal()
+-- Import utils file
+local utilsFile = fs.open('utils.lua', 'r')
+local utils = utilsFile.readAll()
+utilsFile.close()
+loadstring(utils)()
 
+local turtleName = getTurtleName()
+local chests = getChests()
+
+-- Get barrels
 local allPeripherals = peripheral.getNames()
 local barrels = {}
-local chests = {}
 for i = 1, #allPeripherals do
     local peripheralName = allPeripherals[i]
-    if peripheral.getType(peripheralName) == 'minecraft:chest' then
-        table.insert(chests, peripheral.wrap(peripheralName))
-    end
     if peripheral.getType(peripheralName) == 'minecraft:barrel' then
         table.insert(barrels, peripheral.wrap(peripheralName))
     end
