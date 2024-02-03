@@ -13,13 +13,16 @@ local onOffStatuses = {}
 
 function setup()
     for i = 1, #chests do
-        onOffStatuses[tostring(i)] = 0
+        onOffStatuses[i] = 0
     end
 end
 
-function calcPos(num)
-    return (num - 1) * 3 + 2
+function calcPos(num, multiplier)
+    local m = multiplier or 4
+    return (num - 1) * m + 2
 end
+
+local hasItemsCache = {}
 
 function renderScreen()
     local monitor = peripheral.find('monitor');
@@ -35,33 +38,45 @@ function renderScreen()
 
     for i = 1, #chests do
 
-        local value = onOffStatuses[tostring(i)]
+        local value = onOffStatuses[i]
 
         if value > 0 then
             monitor.setBackgroundColor(colors.green)
             monitor.setTextColor(colors.green)
         else
-            monitor.setBackgroundColor(colors.red)
-            monitor.setTextColor(colors.red)
+            -- See if chest has any items or not, first check cache
+            if hasItemsCache[i] == nil then
+                local items = chests[i].list()
+                hasItemsCache[i] = #items > 0
+            end
+
+            if hasItemsCache[i] then
+                monitor.setBackgroundColor(colors.yellow)
+                monitor.setTextColor(colors.yellow)
+            else
+                monitor.setBackgroundColor(colors.red)
+                monitor.setTextColor(colors.red)
+            end
         end
 
-        monitor.setCursorPos(calcPos(col), calcPos(row))
-        monitor.write('OO')
-
-        monitor.setCursorPos(calcPos(col), calcPos(row) + 1)
-        monitor.write('OO')
+        monitor.setCursorPos(calcPos(col), calcPos(row, 3))
+        monitor.write('OOO')
+        monitor.setCursorPos(calcPos(col), calcPos(row, 3) + 1)
+        monitor.write('OOO')
 
         -- Index to string
         local s = tostring(i)
 
         -- Set colors to text
-        monitor.setTextColor(colors.white)
-        monitor.setCursorPos(calcPos(col), calcPos(row))
+        if value == 0 and hasItemsCache[i] then
+            monitor.setTextColor(colors.black)
+        else
+            monitor.setTextColor(colors.white)
+        end
+        monitor.setCursorPos(calcPos(col), calcPos(row, 3))
 
         -- Write text
-        monitor.write(s:sub(1, 2))
-        monitor.setCursorPos(calcPos(col), calcPos(row) + 1)
-        monitor.write(s:sub(3, 4))
+        monitor.write(s)
 
         col = col + 1
         if calcPos(col) > w then
@@ -79,16 +94,22 @@ while true do
     local id = split(message, ' ')[1]
     local status = split(message, ' ')[2]
 
+    local t = tonumber(id)
+    print('Received status ' .. status .. ' for chest ' .. t)
+
     if status == 'on' then
-        onOffStatuses[id] = onOffStatuses[id] + 1
+        onOffStatuses[t] = onOffStatuses[t] + 1
     else
-        onOffStatuses[id] = onOffStatuses[id] - 1
-        if onOffStatuses[id] < 0 then
-            onOffStatuses[id] = 0
+        onOffStatuses[t] = onOffStatuses[t] - 1
+        if onOffStatuses[t] < 0 then
+            onOffStatuses[t] = 0
         end
     end
 
-    print('Received message from ' .. senderId .. ' with status ' .. status .. ' for chest ' .. id)
+    local chest = chests[t]
+    local items = chest.list()
+    hasItemsCache[t] = #items > 0
+
     renderScreen()
 end
 

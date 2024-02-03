@@ -72,6 +72,10 @@ function getChests(includeTrappedChests)
     return chests
 end
 
+local chests = getChests(true)
+
 function setChestStatus(id, status)
     rednet.broadcast(id .. ' ' .. status)
+    local chest = chests[id]
+    local items = chest.list()
 end
