@@ -13,9 +13,12 @@ local inventoriesCleaned = 0
 -- Function to deposit the turtle's entire inventory into the chests
 function organiseTurtleIntoChests()
     for i = 1, #chests do
-        setChestStatus(i, 'on')
 
         local chest = chests[i]
+        print(chest, i, 1, chest.id)
+        setChestStatus(chest.id, 'on')
+        print(chest, i, 1)
+
         local hasItem = false;
         print(toLeft('Dump'), 'Checking room in chest', i)
         for j = 1, 16 do
@@ -30,7 +33,9 @@ function organiseTurtleIntoChests()
             end
         end
 
-        setChestStatus(i, 'off')
+        print(chest, i)
+        setChestStatus(chest.id, 'off')
+        print(chest, i)
 
         -- Check if turtle is empty
         if not hasItem then
@@ -43,10 +48,10 @@ end
 
 -- Loop through chests
 for i = 1, #chests do
-    setChestStatus(#chests - i + 1, 'on')
 
     -- Get chest
     local chestFromEnd = chests[#chests - i + 1]
+    setChestStatus(chestFromEnd.id, 'on')
 
     -- Get list of items
     local items = chestFromEnd.list()
@@ -89,6 +94,6 @@ for i = 1, #chests do
 
     end
 
-    setChestStatus(#chests - i + 1, 'off')
+    setChestStatus(chestFromEnd.id, 'off')
 
 end

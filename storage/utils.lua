@@ -64,7 +64,17 @@ function getChests(includeTrappedChests)
         local peripheralName = allPeripherals[i]
         if peripheral.getType(peripheralName) == 'minecraft:chest' or
             (includeTrappedChests and peripheral.getType(peripheralName) == 'minecraft:trapped_chest') then
-            table.insert(chests, peripheral.wrap(peripheralName))
+            local c = peripheral.wrap(peripheralName)
+
+            -- Add name to c
+            c.name = peripheralName
+            local s = split(peripheralName, '_')
+            c.id = s[#s]
+            if peripheral.getType(peripheralName) == 'minecraft:trapped_chest' then
+                c.id = 'T' .. c.id
+            end
+
+            table.insert(chests, c)
         end
     end
 
@@ -76,6 +86,5 @@ local chests = getChests(true)
 
 function setChestStatus(id, status)
     rednet.broadcast(id .. ' ' .. status)
-    local chest = chests[id]
-    local items = chest.list()
+    os.sleep(0.1)
 end

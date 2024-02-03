@@ -60,11 +60,11 @@ if foundCount >= count then
 else
     -- Loop through chests
     for i = 1, #chests do
-        setChestStatus(i, 'on')
         -- Get chest
         local chest = chests[i]
+        setChestStatus(chest.id, 'on')
         if chest == nil then
-            setChestStatus(i, 'off')
+            setChestStatus(chest.id, 'off')
             break
         end
 
@@ -72,7 +72,7 @@ else
         local items = chest.list()
         if items == nil then
             print('No items found')
-            setChestStatus(i, 'off')
+            setChestStatus(chest.id, 'off')
             break
         end
 
@@ -108,7 +108,7 @@ else
                 end
             end
         end
-        setChestStatus(i, 'off')
+        setChestStatus(chest.id, 'off')
     end
 
     finish(foundCount, itemToFind)

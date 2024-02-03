@@ -13,7 +13,7 @@ local onOffStatuses = {}
 
 function setup()
     for i = 1, #chests do
-        onOffStatuses[i] = 0
+        onOffStatuses[chests[i].id] = 0
     end
 end
 
@@ -38,19 +38,20 @@ function renderScreen()
 
     for i = 1, #chests do
 
-        local value = onOffStatuses[i]
+        local chest = chests[i]
+        local value = onOffStatuses[chest.id]
 
         if value > 0 then
             monitor.setBackgroundColor(colors.green)
             monitor.setTextColor(colors.green)
         else
             -- See if chest has any items or not, first check cache
-            if hasItemsCache[i] == nil then
+            if hasItemsCache[chest.id] == nil then
                 local items = chests[i].list()
-                hasItemsCache[i] = #items > 0
+                hasItemsCache[chest.id] = #items > 0
             end
 
-            if hasItemsCache[i] then
+            if hasItemsCache[chest.id] then
                 monitor.setBackgroundColor(colors.yellow)
                 monitor.setTextColor(colors.yellow)
             else
@@ -68,7 +69,7 @@ function renderScreen()
         local s = tostring(i)
 
         -- Set colors to text
-        if value == 0 and hasItemsCache[i] then
+        if value == 0 and hasItemsCache[chest.id] then
             monitor.setTextColor(colors.black)
         else
             monitor.setTextColor(colors.white)
@@ -76,7 +77,7 @@ function renderScreen()
         monitor.setCursorPos(calcPos(col), calcPos(row, 3))
 
         -- Write text
-        monitor.write(s)
+        monitor.write(chest.id)
 
         col = col + 1
         if calcPos(col) > w then
@@ -94,8 +95,13 @@ while true do
     local id = split(message, ' ')[1]
     local status = split(message, ' ')[2]
 
-    local t = tonumber(id)
+    local t = id
     print('Received status ' .. status .. ' for chest ' .. t)
+
+    if onOffStatuses[t] == nil then
+        print('Chest ' .. t .. ' not found in cache (which is fucked)')
+        onOffStatuses[t] = 0
+    end
 
     if status == 'on' then
         onOffStatuses[t] = onOffStatuses[t] + 1
@@ -106,9 +112,12 @@ while true do
         end
     end
 
-    local chest = chests[t]
-    local items = chest.list()
-    hasItemsCache[t] = #items > 0
+    -- For each chest, see if the ID matches, then update the cache
+    for i = 1, #chests do
+        if chests[i].id == t then
+            hasItemsCache[t] = #chests[i].list() > 0
+        end
+    end
 
     renderScreen()
 end
