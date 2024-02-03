@@ -9,7 +9,7 @@ local utils = utilsFile.readAll()
 utilsFile.close()
 loadstring(utils)()
 
-local chests = getChests()
+local chests = getChests(true)
 
 -- ! Find items in chest
 -- Create variable called "query" that removes all numbers
