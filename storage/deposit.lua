@@ -62,12 +62,14 @@ for i = 1, #barrels do
 
             -- Loop through chests
             for c = 1, #chests do
+                setChestStatus(chestOrder[c], 'on')
                 -- Get chest
                 local chest = chests[chestOrder[c]]
                 chest.pullItems(turtleName, 1)
 
                 -- Check if item is gone from turtle
                 local item = turtle.getItemDetail()
+                setChestStatus(chestOrder[c], 'off')
                 if item == nil then
                     break
                 end
@@ -84,6 +86,7 @@ for i = 1, 16 do
         print(toLeft('T move'), toItemName(item.name), ' slot', i)
 
         for c = 1, #chests do
+            setChestStatus(chestOrder[c], 'on')
             -- Get chest
             local chest = chests[chestOrder[c]]
             turtle.select(i)
@@ -91,6 +94,7 @@ for i = 1, 16 do
 
             -- Check if item is gone from turtle
             local item = turtle.getItemDetail()
+            setChestStatus(chestOrder[c], 'off')
             if item == nil then
                 break
             end

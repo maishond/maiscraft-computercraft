@@ -3,6 +3,8 @@ local modem = peripheral.find("modem")
 modem.open(1)
 local turtleName = modem.getNameLocal()
 
+peripheral.find("modem", rednet.open)
+
 function getTurtleName()
     return turtleName
 end
@@ -70,3 +72,6 @@ function getChests(includeTrappedChests)
     return chests
 end
 
+function setChestStatus(id, status)
+    rednet.broadcast(id .. ' ' .. status)
+end

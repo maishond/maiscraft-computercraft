@@ -8,7 +8,8 @@ local urls = {
     ['count'] = baseUrl .. '/count.lua',
     ['capacity'] = baseUrl .. '/capacity.lua',
     ['startup'] = baseUrl .. '/startup.lua',
-    ['clean'] = baseUrl .. '/clean.lua'
+    ['clean'] = baseUrl .. '/clean.lua',
+    ['status-screen'] = baseUrl .. '/status-screen.lua'
 }
 
 -- Loop over urls
