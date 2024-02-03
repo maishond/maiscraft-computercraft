@@ -7,7 +7,7 @@ loadstring(utils)()
 peripheral.find("modem", rednet.open)
 
 -- Get chests
-local chests = getChests()
+local chests = getChests(true)
 
 local onOffStatuses = {}
 
