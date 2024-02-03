@@ -34,3 +34,10 @@ for key, url in pairs(urls) do
     end
 
 end
+
+-- Check if startup-override.lua exists, if so, replace startup.lua with it
+if fs.exists('startup-override.lua') then
+    fs.delete('startup.lua')
+    fs.copy('startup-override.lua', 'startup.lua')
+    print('Replaced startup.lua with startup-override.lua')
+end

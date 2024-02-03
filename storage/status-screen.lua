@@ -47,8 +47,21 @@ function renderScreen()
 
         monitor.setCursorPos(calcPos(col), calcPos(row))
         monitor.write('OO')
+
         monitor.setCursorPos(calcPos(col), calcPos(row) + 1)
         monitor.write('OO')
+
+        -- Index to string
+        local s = tostring(i)
+
+        -- Set colors to text
+        monitor.setTextColor(colors.white)
+        monitor.setCursorPos(calcPos(col), calcPos(row))
+
+        -- Write text
+        monitor.write(s:sub(1, 2))
+        monitor.setCursorPos(calcPos(col), calcPos(row) + 1)
+        monitor.write(s:sub(3, 4))
 
         col = col + 1
         if calcPos(col) > w then
