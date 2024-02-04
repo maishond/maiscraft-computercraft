@@ -1,7 +1,59 @@
+-- Import csv
+local csvFile = fs.open('dome-small.csv', 'r')
+local csv = csvFile.readAll()
+csvFile.close()
+
+-- Function to split string
+function split(pString, pPattern)
+    local Table = {} -- NOTE: use {n = 0} in Lua-5.0
+    local fpat = "(.-)" .. pPattern
+    local last_end = 1
+    local s, e, cap = pString:find(fpat, 1)
+    while s do
+        if s ~= 1 or cap ~= "" then
+            table.insert(Table, cap)
+        end
+        last_end = e + 1
+        s, e, cap = pString:find(fpat, last_end)
+    end
+    if last_end <= #pString then
+        cap = pString:sub(last_end)
+        table.insert(Table, cap)
+    end
+    return Table
+end
+
+-- Parse csv
+function parseCSV(csvString)
+    local layers = {}
+
+    local lines = split(csvString, "\n\n")
+
+    for y = 1, #lines do
+        local layer = {}
+        local rows = split(lines[y], "\n")
+        for x = 2, #rows do
+            local row = {}
+            local cells = split(rows[x], ",")
+            for z = 1, #cells do
+                table.insert(row, cells[z])
+            end
+            table.insert(layer, row)
+        end
+        table.insert(layers, layer)
+    end
+
+    return layers
+end
+
+local shape = parseCSV(csv)
+
+-- ! Position
 local x = 1;
 local y = 1;
 local z = 1;
 
+-- ! Movement methods
 function forward()
     x = x + 1
     turtle.forward()
@@ -36,10 +88,11 @@ function right()
     turtle.turnLeft()
 end
 
--- 
-local width = 3;
-local height = 3;
-local depth = 3;
+-- ! Config
+local shape = parseCSV(csv)
+local height = #shape
+local width = #shape[1]
+local depth = #shape[1][1]
 
 local xDir = 1;
 local zDir = 1;
@@ -47,12 +100,21 @@ local zDir = 1;
 local isDone = false
 
 function placeBlock()
-    local selected = 1;
-    while turtle.getItemCount(selected) == 0 do
-        selected = selected + 1
+
+    print('x: ' .. x .. ' y: ' .. y .. ' z: ' .. z)
+    local block = shape[y][x][z]
+    print(block)
+    print('---')
+    if block == 'X' then
+
+        local selected = 1;
+        while turtle.getItemCount(selected) == 0 do
+            selected = selected + 1
+        end
+        turtle.select(selected)
+
+        turtle.placeDown()
     end
-    turtle.select(selected)
-    turtle.placeDown()
 end
 
 function move()
