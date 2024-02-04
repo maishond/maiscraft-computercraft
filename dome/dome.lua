@@ -1,7 +1,10 @@
 -- Import csv
-local csvFile = fs.open('dome-small.csv', 'r')
+-- local csvFile = fs.open('shape.csv', 'r')
+local csvFile = http.get('https://jip-cc.loca.lt/dome/shape.csv')
 local csv = csvFile.readAll()
-csvFile.close()
+
+local args = {...}
+args = tonumber(table.concat(args, ' '))
 
 -- Function to split string
 function split(pString, pPattern)
@@ -50,7 +53,7 @@ local shape = parseCSV(csv)
 
 -- ! Position
 local x = 1;
-local y = 1;
+local y = args;
 local z = 1;
 
 -- ! Movement methods
@@ -99,13 +102,33 @@ local zDir = 1;
 
 local isDone = false
 
+function hasAirNeighbour(x, y, z)
+    local neighbours = {{x + 1, y, z}, {x - 1, y, z}, {x, y, z + 1}, {x, y, z - 1}}
+
+    local hasAir = false;
+    for i = 1, #neighbours do
+        local neighbour = neighbours[i]
+        local isOutOfBounds = (not (neighbour[1] > 0 and neighbour[1] <= width)) or
+                                  (not (neighbour[3] > 0 and neighbour[3] <= depth))
+
+        if isOutOfBounds then
+            hasAir = true;
+        end
+
+        if not isOutOfBounds and shape[neighbour[2]][neighbour[1]][neighbour[3]] == '-' then
+            hasAir = true;
+        end
+
+    end
+
+    return hasAir
+end
+
 function placeBlock()
 
-    print('x: ' .. x .. ' y: ' .. y .. ' z: ' .. z)
+    -- print('x: ' .. x .. ' y: ' .. y .. ' z: ' .. z)
     local block = shape[y][x][z]
-    print(block)
-    print('---')
-    if block == 'X' then
+    if block == 'X' and hasAirNeighbour(x, y, z) then
 
         local selected = 1;
         while turtle.getItemCount(selected) == 0 do
@@ -140,13 +163,15 @@ while not isDone do
     if x >= width or x <= 1 then
         if (z == depth and x == width) then
             -- ! Top right
-            up()
-            if y > height then
-                isDone = true
-                return
-            end
-            zDir = zDir * -1
-            moveAside()
+            -- up()
+            -- if y > height then
+            --     isDone = true
+            --     return
+            -- end
+            -- zDir = zDir * -1
+            -- moveAside()
+            isDone = true
+            return
         elseif (zDir == -1 and x == width and z == 1) then
             -- ! Top left
             peripheral.find("speaker").playSound("entity.enderman.teleport", 1, 1)
@@ -158,7 +183,5 @@ while not isDone do
         end
         xDir = xDir * -1
     end
-
-    print(zDir, x, z)
 
 end
