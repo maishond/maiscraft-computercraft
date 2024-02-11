@@ -86,5 +86,4 @@ local chests = getChests(true)
 
 function setChestStatus(id, status)
     rednet.broadcast(id .. ' ' .. status)
-    os.sleep(0.1)
 end
