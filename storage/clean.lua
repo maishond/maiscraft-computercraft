@@ -97,3 +97,5 @@ for i = 1, #chests do
     setChestStatus(chestFromEnd.id, 'off')
 
 end
+
+organiseTurtleIntoChests()
