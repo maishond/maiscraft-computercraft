@@ -7,7 +7,7 @@ args = table.concat(args, ' ')
 
 -- Write startup
 local file = fs.open('startup.lua', 'w')
-local command = 'shell.run("stock.lua ' .. args .. '")'
+local command = 'shell.run("update")\nshell.run("stock.lua ' .. args .. '")'
 file.write(command)
 file.close()
 shell.run('rm startup-override.lua')
@@ -80,9 +80,10 @@ while true do
 
                     -- If the item has been found over 128 times, move it to the turtle
                     if itemCounter[itemName] > 128 and (inTurtle[itemName] == nil or inTurtle[itemName] < 64) then
-                        chest.pushItems(turtleName, j)
-                        inTurtle[itemName] = (inTurtle[itemName] or 0) + itemCount
-                        print('Added', itemCount, itemName, 'to turtle')
+                        local toTake = item.count - (inTurtle[itemName] or 0)
+                        chest.pushItems(turtleName, j, toTake)
+                        inTurtle[itemName] = (inTurtle[itemName] or 0) + toTake
+                        print('Added', toTake, itemName, 'to turtle')
                     end
                 end
             end
