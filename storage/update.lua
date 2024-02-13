@@ -9,7 +9,8 @@ local urls = {
     ['capacity'] = baseUrl .. '/capacity.lua',
     ['startup'] = baseUrl .. '/startup.lua',
     ['clean'] = baseUrl .. '/clean.lua',
-    ['status-screen'] = baseUrl .. '/status-screen.lua'
+    ['status-screen'] = baseUrl .. '/status-screen.lua',
+    ['stock'] = baseUrl .. '/stock.lua'
 }
 
 -- Loop over urls

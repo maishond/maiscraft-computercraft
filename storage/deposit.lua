@@ -1,8 +1,5 @@
 -- Import utils file
-local utilsFile = fs.open('utils.lua', 'r')
-local utils = utilsFile.readAll()
-utilsFile.close()
-loadstring(utils)()
+require('utils')
 
 local turtleName = getTurtleName()
 local chests = getChests()

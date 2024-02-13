@@ -1,0 +1,3 @@
+require("utils")
+
+print(getChests())
