@@ -22,7 +22,7 @@ end
 local hasItemsCache = {}
 
 function renderScreen()
-    local monitor = peripheral.find('monitor');
+    local monitor = peripheral.wrap('left');
     monitor.setBackgroundColor(colors.black)
     monitor.clear()
     monitor.setTextScale(0.5)
