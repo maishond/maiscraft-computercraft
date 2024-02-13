@@ -97,8 +97,19 @@ else
                     -- Take item
                     turtle.select(1)
                     chest.pushItems(turtleName, i, takeCount)
-                    turtle.dropDown()
                     foundCount = foundCount + takeCount
+
+                    -- Find item in turtle
+                    for i = 1, 16 do
+                        local item = turtle.getItemDetail(i)
+                        if item ~= nil then
+                            local itemName = toItemName(item.name)
+                            if itemName == itemToFind then
+                                turtle.select(i)
+                                turtle.dropDown()
+                            end
+                        end
+                    end
 
                     print(toLeft(itemToFind), 'Found ' .. foundCount .. ' of ' .. count)
 

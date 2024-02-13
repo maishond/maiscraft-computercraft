@@ -4,6 +4,8 @@ require('utils')
 local turtleName = getTurtleName()
 local chests = getChests()
 
+turtle.select(1)
+
 -- Get barrels
 local allPeripherals = peripheral.getNames()
 local barrels = {}
