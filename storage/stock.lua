@@ -81,6 +81,11 @@ while true do
                     -- If the item has been found over 512 times, move it to the turtle
                     if itemCounter[itemName] > 512 and (inTurtle[itemName] == nil or inTurtle[itemName] < 64) then
                         local toTake = 64 - (inTurtle[itemName] or 0)
+
+                        if toTake > itemCount then
+                            toTake = itemCount
+                        end
+
                         chest.pushItems(turtleName, j, toTake)
                         inTurtle[itemName] = (inTurtle[itemName] or 0) + toTake
                         print('Added', toTake, itemName, 'to turtle')
