@@ -50,7 +50,6 @@ for key, value in pairs(itemCount) do
     local message = key .. '/' .. value
     m = m .. message .. '\n'
     i = i + 1
-    print(i .. '/' .. #pairs(itemCount))
     if i % 30 == 0 then
         local webhook =
             'https://discord.com/api/webhooks/1202728339471863838/ziJFqkZPym-r3S9D-r4FryNbJ3nUGMqEAbSKbSDH7jXWk_9hsfPWwpf_s-LDizHLzjkQ'
