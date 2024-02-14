@@ -1,6 +1,9 @@
 -- Import utils file
 require('utils')
 
+local args = {...}
+args = table.concat(args, ' ')
+
 local turtleName = getTurtleName()
 local chests = getChests()
 
@@ -31,7 +34,10 @@ local chestOrder = {}
 for i = 1, #chests do
     table.insert(chestOrder, i)
 end
-chestOrder = shuffle(chestOrder)
+
+if args ~= 'slow' then
+    chestOrder = shuffle(chestOrder)
+end
 
 -- ! Deposit all barrels in the network into chests
 
