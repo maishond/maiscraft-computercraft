@@ -17,29 +17,29 @@ for i = 1, #chests do
 
     -- Get list of items
     local items = chest.list()
-    if items == nil then
-        print('No items found')
-        break
-    end
 
-    -- Loop through table of items
-    for i = 1, 54 do
-        -- Get item
-        local item = items[i]
-        if item ~= nil then
+    if items ~= nil then
 
-            -- Get item name
-            local itemName = item.name
+        -- Loop through table of items
+        for i = 1, chest.size() do
+            -- Get item
+            local item = items[i]
+            if item ~= nil then
 
-            -- Check if item is in list
-            if itemCount[itemName] == nil then
-                itemCount[itemName] = 0
+                -- Get item name
+                local itemName = item.name
+
+                -- Check if item is in list
+                if itemCount[itemName] == nil then
+                    itemCount[itemName] = 0
+                end
+
+                -- Add to count
+                itemCount[itemName] = itemCount[itemName] + item.count
             end
-
-            -- Add to count
-            itemCount[itemName] = itemCount[itemName] + item.count
         end
     end
+
 end
 
 -- Print results

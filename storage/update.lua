@@ -10,8 +10,8 @@ local urls = {
     ['startup'] = baseUrl .. '/startup.lua',
     ['clean'] = baseUrl .. '/clean.lua',
     ['status-screen'] = baseUrl .. '/status-screen.lua',
-    ['stock'] = baseUrl .. '/stock.lua' -- ,
-    -- ['count-all'] = baseUrl .. '/count-all.lua'
+    ['stock'] = baseUrl .. '/stock.lua',
+    ['count-all'] = baseUrl .. '/count-all.lua'
 }
 
 -- Loop over urls
