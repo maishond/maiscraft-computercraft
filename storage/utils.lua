@@ -56,7 +56,6 @@ function toItemName(str)
 end
 
 function getChests(includeTrappedChests)
-
     -- ! Find all chests and barrels
     local allPeripherals = peripheral.getNames()
     local chests = {}
@@ -86,4 +85,16 @@ local chests = getChests(true)
 
 function setChestStatus(id, status)
     rednet.broadcast(id .. ' ' .. status)
+end
+
+function containsOnlyDigits(str)
+    -- Iterate over each character in the string
+    for i = 1, #str do
+        local char = str:sub(i, i) -- Get the character at position i
+        -- Check if the character is not a digit
+        if not tonumber(char) then
+            return false -- If any non-digit character is found, return false
+        end
+    end
+    return true -- If all characters are digits, return true
 end
