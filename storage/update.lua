@@ -1,5 +1,5 @@
 -- wget run https://jip-cc.loca.lt/storage/update.lua
-local baseUrl = 'https://jip-cc.loca.lt/storage'
+local baseUrl = 'https://sting-cc.loca.lt/storage'
 local urls = {
     ['update'] = baseUrl .. '/update.lua',
     ['get'] = baseUrl .. '/get.lua',
@@ -9,7 +9,9 @@ local urls = {
     ['capacity'] = baseUrl .. '/capacity.lua',
     ['startup'] = baseUrl .. '/startup.lua',
     ['clean'] = baseUrl .. '/clean.lua',
-    ['status-screen'] = baseUrl .. '/status-screen.lua'
+    ['status-screen'] = baseUrl .. '/status-screen.lua',
+    ['test'] = baseUrl .. '/test.lua',
+    ['update-test'] = baseUrl .. '/test-update.lua'
 }
 
 -- Loop over urls
