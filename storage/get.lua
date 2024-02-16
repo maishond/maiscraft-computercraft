@@ -3,7 +3,7 @@ if turtle == nil then
     return
 end
 
-local args = {...}
+local args = { ... }
 
 -- Args to 1 string
 args = table.concat(args, ' ')
@@ -47,7 +47,6 @@ function finish(foundCount, itemToFind)
     else
         print('Got ' .. foundCount .. ' ' .. itemsPlural .. ' from network')
     end
-
 end
 
 local foundCount = 0
@@ -82,7 +81,6 @@ else
             -- Get item
             local item = items[i]
             if item ~= nil then
-
                 -- Take name, split by : and get last item
                 local name = toItemName(item.name)
 
@@ -112,7 +110,6 @@ else
                     end
 
                     print(toLeft(itemToFind), 'Found ' .. foundCount .. ' of ' .. count)
-
                 end
             end
         end
