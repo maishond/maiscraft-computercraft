@@ -1,8 +1,5 @@
 -- Import utils file
-local utilsFile = fs.open('utils.lua', 'r')
-local utils = utilsFile.readAll()
-utilsFile.close()
-loadstring(utils)()
+require('utils')
 
 -- Get chests
 local chests = getChests()
@@ -97,3 +94,5 @@ for i = 1, #chests do
     setChestStatus(chestFromEnd.id, 'off')
 
 end
+
+organiseTurtleIntoChests()

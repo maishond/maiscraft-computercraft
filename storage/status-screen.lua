@@ -1,8 +1,5 @@
 -- Import utils file
-local utilsFile = fs.open('utils.lua', 'r')
-local utils = utilsFile.readAll()
-utilsFile.close()
-loadstring(utils)()
+require('utils')
 
 peripheral.find("modem", rednet.open)
 
@@ -25,7 +22,7 @@ end
 local hasItemsCache = {}
 
 function renderScreen()
-    local monitor = peripheral.find('monitor');
+    local monitor = peripheral.wrap('left');
     monitor.setBackgroundColor(colors.black)
     monitor.clear()
     monitor.setTextScale(0.5)

@@ -81,8 +81,6 @@ function getChests(includeTrappedChests)
     return chests
 end
 
-local chests = getChests(true)
-
 function setChestStatus(id, status)
     rednet.broadcast(id .. ' ' .. status)
 end

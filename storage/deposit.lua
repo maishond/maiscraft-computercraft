@@ -1,11 +1,13 @@
 -- Import utils file
-local utilsFile = fs.open('utils.lua', 'r')
-local utils = utilsFile.readAll()
-utilsFile.close()
-loadstring(utils)()
+require('utils')
+
+local args = {...}
+args = table.concat(args, ' ')
 
 local turtleName = getTurtleName()
 local chests = getChests()
+
+turtle.select(1)
 
 -- Get barrels
 local allPeripherals = peripheral.getNames()
@@ -32,7 +34,10 @@ local chestOrder = {}
 for i = 1, #chests do
     table.insert(chestOrder, i)
 end
-chestOrder = shuffle(chestOrder)
+
+if args ~= 'slow' then
+    chestOrder = shuffle(chestOrder)
+end
 
 -- ! Deposit all barrels in the network into chests
 

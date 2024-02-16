@@ -11,7 +11,9 @@ local urls = {
     ['clean'] = baseUrl .. '/clean.lua',
     ['status-screen'] = baseUrl .. '/status-screen.lua',
     ['test'] = baseUrl .. '/test.lua',
-    ['update-test'] = baseUrl .. '/test-update.lua'
+    ['update-test'] = baseUrl .. '/test-update.lua',
+    ['stock'] = baseUrl .. '/stock.lua' -- ,
+    -- ['count-all'] = baseUrl .. '/count-all.lua'
 }
 
 -- Loop over urls
@@ -34,7 +36,6 @@ for key, url in pairs(urls) do
     else
         print('Failed to get response from ' .. url)
     end
-
 end
 
 -- Check if startup-override.lua exists, if so, replace startup.lua with it
