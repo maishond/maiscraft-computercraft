@@ -8,10 +8,10 @@ local turtleName = getTurtleName()
 local inventoriesCleaned = 0
 
 local minChestForItem = {}
-local inTurtleCache = {}
 
 -- Function to deposit the turtle's entire inventory into the chests
 function organiseTurtleIntoChests()
+    local inTurtleCache = {}
     for i = 1, #chests do
 
         local chest = chests[i]
@@ -42,8 +42,6 @@ function organiseTurtleIntoChests()
                         hasItem = true;
                         minChestForItem[item.name] = i
                         inTurtleCache[j] = item.name
-                    else
-                        inTurtleCache[j] = nil
                     end
                 end
             end
