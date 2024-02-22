@@ -7,32 +7,51 @@ local turtleName = getTurtleName()
 
 local inventoriesCleaned = 0
 
+local minChestForItem = {}
+local inTurtleCache = {}
+
 -- Function to deposit the turtle's entire inventory into the chests
 function organiseTurtleIntoChests()
     for i = 1, #chests do
 
         local chest = chests[i]
-        print(chest, i, 1, chest.id)
         setChestStatus(chest.id, 'on')
-        print(chest, i, 1)
 
         local hasItem = false;
         print(toLeft('Dump'), 'Checking room in chest', i)
         for j = 1, 16 do
-            turtle.select(j)
-            local item = turtle.getItemDetail()
-            if item ~= nil then
-                chest.pullItems(turtleName, j)
-
-                if turtle.getItemCount(j) > 0 then
+            if (inTurtleCache[j] ~= nil) then
+                if (minChestForItem[inTurtleCache[j]] or -1) >= i then
                     hasItem = true;
+                    goto continue
                 end
             end
+
+            turtle.select(j)
+            local item = turtle.getItemDetail()
+
+            if item ~= nil then
+                inTurtleCache[j] = item.name
+                if (minChestForItem[item.name] or -1) >= i then
+                    hasItem = true;
+                else
+                    chest.pullItems(turtleName, j)
+
+                    -- Check if turtle still has any items in slot after attempting to deposit
+                    if turtle.getItemCount(j) > 0 then
+                        hasItem = true;
+                        minChestForItem[item.name] = i
+                        inTurtleCache[j] = item.name
+                    else
+                        inTurtleCache[j] = nil
+                    end
+                end
+            end
+
+            ::continue::
         end
 
-        print(chest, i)
         setChestStatus(chest.id, 'off')
-        print(chest, i)
 
         -- Check if turtle is empty
         if not hasItem then
